@@ -11,8 +11,11 @@ namespace CustomerApplication
 {
 	public partial class CustomerManagement : System.Web.UI.Page
 	{
+		#region private variables
 
 		private static readonly string apiUrl = "https://localhost:44348/api/Customer";
+
+		#endregion
 
 		#region Protected Methods
 
@@ -85,6 +88,7 @@ namespace CustomerApplication
 		/// <param name="e"></param>
 		protected async void btnAdd_Click(object sender, EventArgs e)
 		{
+			lblError.Visible = false;
 			if (Page.IsValid)
 			{
 				// Validate the customer before add whether if any existis with the same name and email / phone number
@@ -134,6 +138,7 @@ namespace CustomerApplication
 		/// <param name="e"></param>
 		protected async void btnUpdate_Click(object sender, EventArgs e)
 		{
+			lblError.Visible = false;
 			if (Page.IsValid)
 			{
 				// Get the customer id
