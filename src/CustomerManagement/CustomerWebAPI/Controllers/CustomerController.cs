@@ -14,8 +14,12 @@ namespace CustomerWebAPI.Controllers
     {
         List<Customer> customers;
 
+		/// <summary>
+		/// Get the list of customer from SQL Database
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
-        public IHttpActionResult GetCustomers()
+	    public IHttpActionResult GetCustomers()
         {
             customers = new List<Customer>();
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
@@ -37,7 +41,11 @@ namespace CustomerWebAPI.Controllers
             return Ok(customers);
         }
 
-		// GET: api/Customer/{id}
+		/// <summary>
+		/// Get the customer using : api/Customer/{id}
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet]
 		public IHttpActionResult GetCustomer(int id)
 		{
@@ -69,6 +77,11 @@ namespace CustomerWebAPI.Controllers
 			return Ok(customer);
 		}
 
+		/// <summary>
+		/// Add a new customer into the database
+		/// </summary>
+		/// <param name="customer">Customer object</param>
+		/// <returns></returns>
 		[HttpPost]
 		public IHttpActionResult AddCustomer([FromBody] Customer customer)
 		{
@@ -91,6 +104,12 @@ namespace CustomerWebAPI.Controllers
 			return Ok();  // Return success status
 		}
 
+		/// <summary>
+		/// Update the existing custromer
+		/// </summary>
+		/// <param name="id">Customer Id</param>
+		/// <param name="customer"></param>
+		/// <returns></returns>
 		[HttpPut]
 		public IHttpActionResult UpdateCustomer(int id, [FromBody] Customer customer)
 		{			
@@ -118,6 +137,11 @@ namespace CustomerWebAPI.Controllers
 			return Ok();  // Return success status
 		}
 
+		/// <summary>
+		/// Delete an existing cutomer
+		/// </summary>
+		/// <param name="id">Customer Id</param>
+		/// <returns></returns>
 		[HttpDelete]
 		public IHttpActionResult DeleteCustomer(int id)
 		{

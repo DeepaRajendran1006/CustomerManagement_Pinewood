@@ -16,6 +16,11 @@ namespace CustomerApplication
 
 		#region Protected Methods
 
+		/// <summary>
+		/// Load the list of existing customers when the page is loaded
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected async void Page_Load(object sender, EventArgs e)
 		{
 			lblError.Visible = false;
@@ -26,6 +31,10 @@ namespace CustomerApplication
 			}
 		}
 
+		/// <summary>
+		/// Load the existing list of customers and bind to grid view
+		/// </summary>
+		/// <returns></returns>
 		protected async Task LoadCustomers()
 		{
 			using (HttpClient client = new HttpClient())
@@ -48,7 +57,11 @@ namespace CustomerApplication
 			}
 		}
 
-		// GridView Command (Edit or Delete)
+		/// <summary>
+		/// GridView Command (Edit or Delete the customer)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void gvCustomers_RowCommand(object sender, GridViewCommandEventArgs e)
         {
 			clearData();
@@ -65,11 +78,16 @@ namespace CustomerApplication
 			}
 		}
 
-		// Add customer (POST)
+		/// <summary>
+		///  Add a new customer (POST)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected async void btnAdd_Click(object sender, EventArgs e)
 		{
 			if (Page.IsValid)
 			{
+				// Validate the customer before add whether if any existis with the same name and email / phone number
 				if (!validateCustomer(txtName.Text, txtEmailId.Text, txtPhoneNumber.Text))
 				{
 					var newCustomer = new Customer
@@ -97,19 +115,31 @@ namespace CustomerApplication
 			}
 		}
 
-		// Clear customer (POST)
+		/// <summary>
+		/// Clear the customer list(POST)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void btnClear_Click(object sender, EventArgs e)
 		{
 			btnUpdate.Enabled = false;
+			//clear the form data
 			clearData();
 		}
 
-		// Update customer (PUT)
+		/// <summary>
+		/// Update the selected customer (PUT)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected async void btnUpdate_Click(object sender, EventArgs e)
 		{
 			if (Page.IsValid)
 			{
+				// Get the customer id
 				var customerId = Convert.ToInt32(ViewState["CustomerId"]);
+
+				// Validate the customer
 				if (!validateCustomer(txtName.Text, txtEmailId.Text, txtPhoneNumber.Text, customerId))
 				{					
 					var updatedCustomer = new Customer
@@ -143,6 +173,9 @@ namespace CustomerApplication
 
 		#region Private Methods
 
+		/// <summary>
+		/// Clear the form data
+		/// </summary>
 		private void clearData()
 		{
 			txtName.Text = "";
@@ -152,12 +185,21 @@ namespace CustomerApplication
 			lblError.Visible = false;
 		}
 
+		/// <summary>
+		/// Validate the customer while adding / updating
+		/// </summary>
+		/// <param name="name">Customer name</param>
+		/// <param name="email">Email Id</param>
+		/// <param name="phoneNumber">Phone number</param>
+		/// <param name="customerId">Customer Id</param>
+		/// <returns>true / false</returns>
 		private bool validateCustomer(string name, string email, string phoneNumber, int customerId = 0)
 		{
 			foreach (GridViewRow row in gvCustomers.Rows)
 			{
+				int rowIndex = row.RowIndex;
 				// Get the Id, Name, Email and Phone from the grid view
-				int existingId = int.Parse(row.Cells[0].Text);
+				int existingId = int.Parse(gvCustomers.DataKeys[rowIndex].Values[0].ToString()); //int.Parse(row.Cells[0].Text);
 				string existingName = row.Cells[1].Text;
 				string existingEmail = row.Cells[2].Text;
 				string existingPhone = row.Cells[3].Text;
@@ -180,7 +222,10 @@ namespace CustomerApplication
 			return false;
 		}
 
-		// Edit customer (GET by ID)
+		/// <summary>
+		/// Edit the existing customer (GET by ID)
+		/// </summary>
+		/// <param name="customerId">Customer Id</param>
 		private async void EditCustomer(int customerId)
 		{
 			using (HttpClient client = new HttpClient())
@@ -199,7 +244,10 @@ namespace CustomerApplication
 			}
 		}
 
-		// Delete customer (DELETE)
+		/// <summary>
+		/// Delete the customer (DELETE)
+		/// </summary>
+		/// <param name="customerId">Customer Id</param>
 		private async void DeleteCustomer(int customerId)
 		{
 			using (HttpClient client = new HttpClient())

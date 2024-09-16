@@ -74,9 +74,9 @@
                 <u>List of Customers</u>
             </h3>
 
-            <asp:GridView ID="gvCustomers" runat="server" AutoGenerateColumns="false" OnRowCommand="gvCustomers_RowCommand">
+            <asp:GridView ID="gvCustomers" runat="server" AutoGenerateColumns="false" DataKeyNames="Id" OnRowCommand="gvCustomers_RowCommand">
                 <Columns>
-                    <asp:BoundField DataField="Id" HeaderText="Customer ID" />
+                    <asp:BoundField DataField="Id" HeaderText="Customer ID" Visible="false"/>
                     <asp:BoundField DataField="Name" HeaderText="Name" />
                     <asp:BoundField DataField="Email" HeaderText="Email Id" />
                     <asp:BoundField DataField="PhoneNumber" HeaderText="Phone Number" />
