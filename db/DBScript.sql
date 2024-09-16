@@ -1,5 +1,6 @@
 USE [master]
 GO
+
 /****** Object:  Database [CustomerDB]    Script Date: 16/09/2024 11:25:21 ******/
 CREATE DATABASE [CustomerDB]
  CONTAINMENT = NONE
@@ -80,13 +81,22 @@ ALTER DATABASE [CustomerDB] SET QUERY_STORE = ON
 GO
 ALTER DATABASE [CustomerDB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
 GO
+
 USE [CustomerDB]
 GO
-/****** Object:  Table [dbo].[Customers]    Script Date: 16/09/2024 11:25:21 ******/
+
+/****** Object:  Table [dbo].[Customers]    Script Date: 16/09/2024 13:34:25 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Customers]') AND type in (N'U'))
+DROP TABLE [dbo].[Customers]
+GO
+
+/****** Object:  Table [dbo].[Customers]    Script Date: 16/09/2024 13:34:25 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE TABLE [dbo].[Customers](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](100) NOT NULL,
@@ -98,7 +108,22 @@ CREATE TABLE [dbo].[Customers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
 USE [master]
 GO
 ALTER DATABASE [CustomerDB] SET  READ_WRITE 
+GO
+
+/*** Create test records ***/
+USE [CustomerDB]
+GO
+
+INSERT INTO [dbo].[Customers]
+           ([Name]
+           ,[Email]
+           ,[PhoneNumber])
+     VALUES
+           ('Customer1','customer1@test.com','0213654785'),
+		   ('Customer2','customer2@test.com','4587962542'),
+		   ('Customer3','customer3@test.com','5487514548')
 GO
