@@ -71,7 +71,13 @@ namespace CustomerWebAPI.Controllers
 
 			if (customer == null)
 			{
-				return NotFound();  // Return 404 if not found
+				// Create a custom response message when customer is not found
+				var response = new
+				{
+					Message = "Customer not found. Please check the ID and try again."
+				};
+
+				return Content(HttpStatusCode.NotFound, response);  // Return 404 with custom message
 			}
 
 			return Ok(customer);
@@ -130,7 +136,13 @@ namespace CustomerWebAPI.Controllers
 				int rowsAffected = cmd.ExecuteNonQuery();
 				if (rowsAffected == 0)
 				{
-					return NotFound();  // Return 404 if not found
+					// Create a custom response message when customer is not found
+					var response = new
+					{
+						Message = "Customer not found. Please check the ID and try again."
+					};
+
+					return Content(HttpStatusCode.NotFound, response);  // Return 404 with custom message
 				}
 			}
 
@@ -154,7 +166,13 @@ namespace CustomerWebAPI.Controllers
 				int rowsAffected = cmd.ExecuteNonQuery();
 				if (rowsAffected == 0)
 				{
-					return NotFound();  // Return 404 if not found
+					// Create a custom response message when customer is not found
+					var response = new
+					{
+						Message = "Customer not found. Please check the ID and try again."
+					};
+
+					return Content(HttpStatusCode.NotFound, response);  // Return 404 with custom message
 				}
 			}
 
